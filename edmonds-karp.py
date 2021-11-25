@@ -19,29 +19,21 @@ grafo.agregar_arista(1,3,12)
 grafo.agregar_arista(3,5,19)
 
 def edmonds_karp(grafo, fuente, sumidero):
-	flujo = {}
-	for v in grafo:
-		for w in grafo.adyacentes(v):
-			flujo[(v,w)] = 0
+	flujo = 0
 	grafo_residual = deepcopy(grafo)
 	print(grafo_residual)
 	camino = camino_mas_corto(grafo_residual, fuente, sumidero)
 	while camino is not None:
 		print(camino)
-		#print(distancia)
 		capacidad_residual = cuello_botella(grafo_residual, camino)
 		print("capacidad:{} ".format(capacidad_residual))
 		print("\n")
 		for i in range(1, len(camino)):
-			if camino[i] in grafo_residual.adyacentes(camino[i-1]):
-				flujo[(camino[i-1], camino[i])] += capacidad_residual
-				actualizar_grafo_residual(grafo_residual, camino[i-1], camino[i], capacidad_residual)
-			else:
-				flujo[(camino[i], camino[i-1])] -= capacidad_residual
-				actualizar_grafo_residual(grafo_residual, camino[i], camino[i-1], capacidad_residual)
+			actualizar_grafo_residual(grafo_residual, camino[i-1], camino[i], capacidad_residual)
 			print(grafo_residual)
 			print("\n")
 		camino = camino_mas_corto(grafo_residual, fuente, sumidero)
+		flujo += capacidad_residual
 	return flujo
 
 def cuello_botella(grafo, camino):
@@ -67,4 +59,4 @@ def actualizar_grafo_residual(grafo, u, v, capacidad_residual):
 	else:
 		grafo.agregar_arista(v, u, capacidad_residual)
 
-print(edmonds_karp(grafo, 0,5))
+print(edmonds_karp(grafo,0,5))

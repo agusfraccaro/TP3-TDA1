@@ -17,8 +17,6 @@ def camino_mas_corto(grafo, origen, final):
             # if peso:
             #     recorrido.append(peso)
             #     print("recorrido2 {}".format(recorrido))
-        print("recorrido {}".format(recorrido))
-        print("padres: {}".format(padres))
         return recorrido[::-1]
     return padres
 
