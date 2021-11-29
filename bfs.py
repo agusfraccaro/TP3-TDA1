@@ -10,7 +10,8 @@ def camino_mas_corto(grafo, origen, final):
             recorrido.append(final)
             aux = final
             final = padres[final]
-        return recorrido[::-1]
+        list.reverse(recorrido)
+        return recorrido
     return padres
 
 def bfs_camino_corto(grafo, origen, final):
