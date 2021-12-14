@@ -2,6 +2,13 @@ from grafo import Grafo
 from bfs import camino_mas_corto
 from edmonds_karp import edmonds_karp
 
+def obtener_aristas(grafo):
+    aristas = []
+    for v in grafo:
+        for w in grafo.adyacentes(v):
+            aristas.append((v,w))
+    return aristas
+
 def definir_trayectos(aeropuertos, grupoFuente, grupoSumidero):
 	trayectos = []
 	for i in grupoFuente:
@@ -29,6 +36,14 @@ with open(nombre_arch_extension, "r") as archivo:
 		aeropuertos.agregar_vertice(info[1])
 		aeropuertos.agregar_arista(info[0],info[1],int(info[2]))
 
+aristas = obtener_aristas(aeropuertos)
+for arista in aristas:
+	peso_nuevo = (aeropuertos.peso_arista(arista[0], arista[1]) * (aeropuertos.total_aristas() + 1) + 1)
+	aeropuertos.cambiar_peso(arista[0], arista[1], peso_nuevo)
+
+
 flujo, grupoFuente, grupoSumidero = edmonds_karp(aeropuertos, fuente, sumidero)
 trayectos = definir_trayectos(aeropuertos, grupoFuente, grupoSumidero)
-pretty_print(trayectos, flujo, fuente, sumidero)
+nuevo_flujo = flujo / (aeropuertos.total_aristas() + 1)
+pretty_print(trayectos, int(nuevo_flujo), fuente, sumidero)
+
