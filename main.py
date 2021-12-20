@@ -44,6 +44,6 @@ for arista in aristas:
 
 flujo, grupoFuente, grupoSumidero = edmonds_karp(aeropuertos, fuente, sumidero)
 trayectos = definir_trayectos(aeropuertos, grupoFuente, grupoSumidero)
-nuevo_flujo = flujo / (aeropuertos.total_aristas() + 1)
+nuevo_flujo = (flujo - 1) / (aeropuertos.total_aristas() + 1)
 pretty_print(trayectos, int(nuevo_flujo), fuente, sumidero)
 
